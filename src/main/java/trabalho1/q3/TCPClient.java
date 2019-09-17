@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -14,21 +15,37 @@ public class TCPClient {
         Socket s = null;
         try {
             int serverPort = 7896;
-            s = new Socket(args[1], serverPort);
+            s = new Socket("localhost", serverPort, InetAddress.getByName("localhost"), Integer.parseInt(args[0]));
             DataInputStream in = new DataInputStream(s.getInputStream());
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
             Scanner scan = new Scanner(System.in);
-            String line = "";
-            while (!line.equals("Over")) {
+            String data = "";
+            System.out.println("Received: " + in.readUTF());
+            while (true) {
                 try {
-                    line = scan.nextLine();
-                    out.writeUTF(line);
-                    String data = in.readUTF();        // read a line of data from the stream
+                    data = in.readUTF();        // read a line of data from the stream
                     System.out.println("Received: " + data);
+                    try {
+                        Double.parseDouble(data);
+                        System.out.println("Received: " + in.readUTF());
+                    } catch (Exception e) {
+
+                    }
+                    data = scan.nextLine();
+                    if(data.equals("Quit"))
+                        break;
+                    out.writeUTF(data);
                 } catch (IOException i) {
                     System.out.println(i);
                 }
             }
+            try {
+                out.writeUTF(data);
+                data = in.readUTF();        // read a line of data from the stream
+            } catch (IOException i) {
+//                System.out.println(i);
+            }
+
         } catch (UnknownHostException e) {
             System.out.println("Socket:" + e.getMessage());
         } catch (EOFException e) {
