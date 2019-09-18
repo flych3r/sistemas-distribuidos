@@ -1,4 +1,5 @@
-package trabalho1.q3;
+//package trabalho1.q3;
+
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,7 +10,7 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TCPServer {
+public class CalculadoraTCP {
 
     public static Map<Integer, Operation> clients = new HashMap<Integer, Operation>();
 
@@ -127,7 +128,7 @@ class Connection extends Thread {
 
     public Connection(Socket aClientSocket) {
         try {
-            TCPServer.clients.putIfAbsent(aClientSocket.getPort(), new Operation());
+            CalculadoraTCP.clients.putIfAbsent(aClientSocket.getPort(), new Operation());
             System.out.println(aClientSocket.getPort());
             clientSocket = aClientSocket;
             in = new DataInputStream(clientSocket.getInputStream());
@@ -143,39 +144,39 @@ class Connection extends Thread {
         try {                             // an echo server
             out.writeUTF("Digite Quit para sair");
 
-            while (CONNECTED){
-                boolean op = TCPServer.clients.get(clientSocket.getPort()).isOp_();
-                if(!op) {
+            while (CONNECTED) {
+                boolean op = CalculadoraTCP.clients.get(clientSocket.getPort()).isOp_();
+                if (!op) {
                     out.writeUTF("Digite o operador");
                     String data = in.readUTF();
-                    if(data.equals("Quit")) {
+                    if (data.equals("Quit")) {
                         CONNECTED = false;
                         break;
                     }
-                    TCPServer.clients.get(clientSocket.getPort()).setOp(data);
+                    CalculadoraTCP.clients.get(clientSocket.getPort()).setOp(data);
                 }
-                boolean n1 = TCPServer.clients.get(clientSocket.getPort()).isN1_();
-                if(!n1) {
+                boolean n1 = CalculadoraTCP.clients.get(clientSocket.getPort()).isN1_();
+                if (!n1) {
                     out.writeUTF("Digite o primeiro numero");
                     String data = in.readUTF();
-                    if(data.equals("Quit")) {
+                    if (data.equals("Quit")) {
                         CONNECTED = false;
                         break;
                     }
-                    TCPServer.clients.get(clientSocket.getPort()).setN1(data);
+                    CalculadoraTCP.clients.get(clientSocket.getPort()).setN1(data);
                 }
-                boolean n2 = TCPServer.clients.get(clientSocket.getPort()).isN2_();
-                if(!n2) {
+                boolean n2 = CalculadoraTCP.clients.get(clientSocket.getPort()).isN2_();
+                if (!n2) {
                     out.writeUTF("Digite o segundo numero");
                     String data = in.readUTF();
-                    if(data.equals("Quit")) {
+                    if (data.equals("Quit")) {
                         CONNECTED = false;
                         break;
                     }
-                    TCPServer.clients.get(clientSocket.getPort()).setN2(data);
+                    CalculadoraTCP.clients.get(clientSocket.getPort()).setN2(data);
                 }
-                out.writeUTF(TCPServer.clients.get(clientSocket.getPort()).getAnswer());
-                TCPServer.clients.get(clientSocket.getPort()).clearOperation();
+                out.writeUTF(CalculadoraTCP.clients.get(clientSocket.getPort()).getAnswer());
+                CalculadoraTCP.clients.get(clientSocket.getPort()).clearOperation();
             }
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());

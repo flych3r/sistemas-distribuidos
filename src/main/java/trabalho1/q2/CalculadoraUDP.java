@@ -1,11 +1,11 @@
-package trabalho1.q2;
+//package trabalho1.q2;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-public class UDPServer {
+public class CalculadoraUDP {
     public static void main(String[] args) {
         DatagramSocket aSocket = null;
         try {

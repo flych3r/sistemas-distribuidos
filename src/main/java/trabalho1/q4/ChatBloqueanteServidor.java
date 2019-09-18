@@ -1,4 +1,4 @@
-//package trabalho1.q1;
+//package trabalho1.q4;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -6,8 +6,9 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
-public class TCPServer {
+public class ChatBloqueanteServidor {
     public static void main(String[] args) {
         try {
             int serverPort = 7896; // the server port
@@ -40,9 +41,14 @@ class Connection extends Thread {
 
     public void run() {
         try {                             // an echo server
-
-            String data = in.readUTF();                      // read a line of data from the stream
-            out.writeUTF(data);
+            String data = "";
+            Scanner scan = new Scanner(System.in);
+            while (true) {
+                data = in.readUTF();
+                System.out.println("Received: " + data);
+                data = scan.nextLine();
+                out.writeUTF(data);
+            }
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
         } catch (IOException e) {

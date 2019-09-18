@@ -1,4 +1,4 @@
-package trabalho1.q2;
+//package trabalho1.q2;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
-public class UDPClient {
+public class ClienteCalculadora {
     public static void main(String[] args) {
         // args give message contents and destination hostname
         DatagramSocket aSocket = null;
