@@ -1,4 +1,4 @@
-//package trabalho1.q3;
+//package trabalho1.q6;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -15,36 +15,23 @@ public class ClienteCalculadora {
         Socket s = null;
         try {
             int serverPort = 7896;
-            s = new Socket("localhost", serverPort, InetAddress.getByName("localhost"), Integer.parseInt(args[0]));
+            s = new Socket("localhost", serverPort);
             DataInputStream in = new DataInputStream(s.getInputStream());
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
             Scanner scan = new Scanner(System.in);
             String data = "";
             System.out.println("Received: " + in.readUTF());
             while (true) {
-                try {
-                    data = in.readUTF();        // read a line of data from the stream
-                    System.out.println("Received: " + data);
-                    try {
-                        Double.parseDouble(data);
-                        System.out.println("Received: " + in.readUTF());
-                    } catch (Exception e) {
-
-                    }
-                    data = scan.nextLine();
-                    if (data.equals("Quit"))
-                        break;
-                    out.writeUTF(data);
-                } catch (IOException i) {
-                    System.out.println(i);
+                System.out.println("Digite a Operacao no estilo Op N1 N2 ou digite OP para ver os operadores ja utilizados ");
+                data = scan.nextLine();
+                if (data.equals("Quit"))
                     break;
-                }
-            }
-            try {
                 out.writeUTF(data);
-                data = in.readUTF();        // read a line of data from the stream
-            } catch (IOException i) {
-//                System.out.println(i);
+                try {
+                    System.out.println("Received: " + in.readUTF());
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
 
         } catch (UnknownHostException e) {

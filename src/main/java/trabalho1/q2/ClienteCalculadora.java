@@ -13,7 +13,7 @@ public class ClienteCalculadora {
         try {
             aSocket = new DatagramSocket();
             byte[] m = args[0].getBytes();
-            InetAddress aHost = InetAddress.getByName(args[1]);
+            InetAddress aHost = InetAddress.getByName("localhost");
             int serverPort = 6789;
             DatagramPacket request =
                     new DatagramPacket(m, args[0].length(), aHost, serverPort);

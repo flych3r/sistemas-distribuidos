@@ -11,8 +11,9 @@ public class CalculadoraUDP {
         try {
             aSocket = new DatagramSocket(6789);
             // create socket at agreed port
-            byte[] buffer = new byte[1000];
+            byte[] buffer;
             while (true) {
+                buffer = new byte[1000];
                 DatagramPacket request = new DatagramPacket(buffer, buffer.length);
                 aSocket.receive(request);
 

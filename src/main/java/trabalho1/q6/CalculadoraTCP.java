@@ -1,4 +1,4 @@
-//package trabalho1.q3;
+//package trabalho1.q6;
 
 
 import java.io.DataInputStream;
@@ -7,12 +7,10 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+
 
 public class CalculadoraTCP {
-
-    public static Map<Integer, Operation> clients = new HashMap<Integer, Operation>();
 
     public static void main(String[] args) {
         try {
@@ -30,58 +28,26 @@ public class CalculadoraTCP {
 
 class Operation {
     String op;
-    boolean op_ = false;
     double n1;
-    boolean n1_ = false;
     double n2;
-    boolean n2_ = false;
+
+    public Operation(String data){
+        String[] values = data.split(" ");
+        op = values[0];
+        n1 = Integer.parseInt(values[1]);
+        n2 = Integer.parseInt(values[2]);
+    }
 
     public String getOp() {
         return op;
-    }
-
-    public void setOp(String op) {
-
-        this.op = op;
-        this.op_ = true;
     }
 
     public double getN1() {
         return n1;
     }
 
-    public void setN1(String n1) {
-
-        this.n1 = Double.parseDouble(n1);
-        this.n1_ = true;
-    }
-
     public double getN2() {
         return n2;
-    }
-
-    public void setN2(String n2) {
-
-        this.n2 = Double.parseDouble(n2);
-        this.n2_ = true;
-    }
-
-    public boolean isOp_() {
-        return op_;
-    }
-
-    public boolean isN1_() {
-        return n1_;
-    }
-
-    public boolean isN2_() {
-        return n2_;
-    }
-
-    public void clearOperation() {
-        this.op_ = false;
-        this.n1_ = false;
-        this.n2_ = false;
     }
 
     public String getAnswer() {
@@ -114,7 +80,7 @@ class Operation {
 
             return Double.toString(ans);
         } catch (Exception e) {
-            return "Formato não rechonhecido. Use o padrão OP N1 N2.";
+            return "Formato não rechonhecido. Use o padrão N1 op N2.";
         }
     }
 }
@@ -123,12 +89,18 @@ class Connection extends Thread {
     DataInputStream in;
     DataOutputStream out;
     Socket clientSocket;
+    Operation operation;
+    String data;
+    ArrayList<String> operations;
+    int count;
 
     boolean CONNECTED = true;
 
     public Connection(Socket aClientSocket) {
+
         try {
-            CalculadoraTCP.clients.putIfAbsent(aClientSocket.getPort(), new Operation());
+            count = 0;
+            operations = new ArrayList<>();
             System.out.println(aClientSocket.getPort());
             clientSocket = aClientSocket;
             in = new DataInputStream(clientSocket.getInputStream());
@@ -144,39 +116,22 @@ class Connection extends Thread {
         try {                             // an echo server
             out.writeUTF("Digite Quit para sair");
 
+
             while (CONNECTED) {
-                boolean op = CalculadoraTCP.clients.get(clientSocket.getPort()).isOp_();
-                if (!op) {
-                    out.writeUTF("Digite o operador");
-                    String data = in.readUTF();
-                    if (data.equals("Quit")) {
-                        CONNECTED = false;
-                        break;
-                    }
-                    CalculadoraTCP.clients.get(clientSocket.getPort()).setOp(data);
+                data = in.readUTF();
+
+                if (data.equals("Quit")) {
+                    CONNECTED = false;
+                    break;
                 }
-                boolean n1 = CalculadoraTCP.clients.get(clientSocket.getPort()).isN1_();
-                if (!n1) {
-                    out.writeUTF("Digite o primeiro numero");
-                    String data = in.readUTF();
-                    if (data.equals("Quit")) {
-                        CONNECTED = false;
-                        break;
-                    }
-                    CalculadoraTCP.clients.get(clientSocket.getPort()).setN1(data);
+                if(data.equals("OP")) {
+                    out.writeUTF(count + ": " + operations.toString());
+                }else {
+                    operation = new Operation(data);
+                    operations.add(operation.getOp() + " ");
+                    out.writeUTF(operation.getAnswer());
+                    count++;
                 }
-                boolean n2 = CalculadoraTCP.clients.get(clientSocket.getPort()).isN2_();
-                if (!n2) {
-                    out.writeUTF("Digite o segundo numero");
-                    String data = in.readUTF();
-                    if (data.equals("Quit")) {
-                        CONNECTED = false;
-                        break;
-                    }
-                    CalculadoraTCP.clients.get(clientSocket.getPort()).setN2(data);
-                }
-                out.writeUTF(CalculadoraTCP.clients.get(clientSocket.getPort()).getAnswer());
-                CalculadoraTCP.clients.get(clientSocket.getPort()).clearOperation();
             }
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
@@ -187,7 +142,5 @@ class Connection extends Thread {
                 clientSocket.close();
             } catch (IOException e) {/*close failed*/}
         }
-
-
     }
 }

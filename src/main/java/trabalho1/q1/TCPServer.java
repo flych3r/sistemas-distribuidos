@@ -53,6 +53,5 @@ class Connection extends Thread {
             } catch (IOException e) {/*close failed*/}
         }
 
-
     }
 }

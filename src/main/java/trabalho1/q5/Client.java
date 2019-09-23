@@ -10,7 +10,6 @@ public class Client {
 
     private int serverPort;
     private int clientPort;
-    private String name;
 
     public Client(int serverPort, int clientPort) {
         this.serverPort = serverPort;
