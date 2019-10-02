@@ -33,8 +33,6 @@ public class Squeleton {
         String[] op = args.split(" ");
         double op1 = Double.parseDouble(op[0]);
         double op2 = Double.parseDouble(op[2]);
-        if (op2 == 0)
-            return "Divisor equals 0.";
         return Double.toString(calculator.div(op1, op2));
     }
 
