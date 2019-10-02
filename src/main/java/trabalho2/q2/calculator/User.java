@@ -1,4 +1,4 @@
-package trabalho2.q2;
+package trabalho2.q2.calculator;
 
 import java.util.Scanner;
 
@@ -19,16 +19,16 @@ public class User {
             String[] ops = operation.split(" ");
             switch (ops[1]) {
                 case "+":
-                    proxy.add(Double.parseDouble(ops[0]), Double.parseDouble(ops[2]));
+                    System.out.println(proxy.add(Double.parseDouble(ops[0]), Double.parseDouble(ops[2])));
                     break;
                 case "-":
-                    proxy.sub(Double.parseDouble(ops[0]), Double.parseDouble(ops[2]));
+                    System.out.println(proxy.sub(Double.parseDouble(ops[0]), Double.parseDouble(ops[2])));
                     break;
                 case "*":
-                    proxy.mult(Double.parseDouble(ops[0]), Double.parseDouble(ops[2]));
+                    System.out.println(proxy.mult(Double.parseDouble(ops[0]), Double.parseDouble(ops[2])));
                     break;
                 case "/":
-                    proxy.div(Double.parseDouble(ops[0]), Double.parseDouble(ops[2]));
+                    System.out.println(proxy.div(Double.parseDouble(ops[0]), Double.parseDouble(ops[2])));
                     break;
             }
         }

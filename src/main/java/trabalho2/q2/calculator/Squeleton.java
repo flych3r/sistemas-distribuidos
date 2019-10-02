@@ -1,4 +1,4 @@
-package trabalho2.q2;
+package trabalho2.q2.calculator;
 
 public class Squeleton {
 
