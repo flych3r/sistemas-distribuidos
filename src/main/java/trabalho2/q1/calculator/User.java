@@ -1,7 +1,5 @@
 package trabalho2.q1.calculator;
 
-import trabalho2.q2.calculator.Proxy;
-
 import java.util.Scanner;
 
 public class User {

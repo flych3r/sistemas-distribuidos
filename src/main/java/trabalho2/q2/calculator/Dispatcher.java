@@ -8,7 +8,7 @@ public class Dispatcher {
         squeleton = new Squeleton();
     }
 
-    public String invoque(String message) {
+    public String invoke(String message) {
 
         char op = message.split(" ")[1].charAt(0);
         String answer;

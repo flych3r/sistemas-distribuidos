@@ -31,7 +31,7 @@ class Operation {
     double n1;
     double n2;
 
-    public Operation(String data){
+    public Operation(String data) {
         String[] values = data.split(" ");
         op = values[0];
         n1 = Integer.parseInt(values[1]);
@@ -124,9 +124,9 @@ class Connection extends Thread {
                     CONNECTED = false;
                     break;
                 }
-                if(data.equals("OP")) {
+                if (data.equals("OP")) {
                     out.writeUTF(count + ": " + operations.toString());
-                }else {
+                } else {
                     operation = new Operation(data);
                     operations.add(operation.getOp() + " ");
                     out.writeUTF(operation.getAnswer());

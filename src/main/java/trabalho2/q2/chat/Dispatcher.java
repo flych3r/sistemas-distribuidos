@@ -8,7 +8,7 @@ public class Dispatcher {
         squeleton = new Squeleton();
     }
 
-    public String invoque(String message) {
+    public String invoke(String message) {
 
         return squeleton.sendMessage(message);
 

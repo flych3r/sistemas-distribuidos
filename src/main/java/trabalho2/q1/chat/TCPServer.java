@@ -1,7 +1,5 @@
 package trabalho2.q1.chat;
 
-import trabalho2.q2.calculator.Dispatcher;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;

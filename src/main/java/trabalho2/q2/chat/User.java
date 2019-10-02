@@ -12,12 +12,12 @@ public class User {
         while (true) {
             String message = scan.nextLine();
 
-            if(message.equals("close"))
+            if (message.equals("close"))
                 break;
 
-            String response = proxy.sendMessage("Received: " + message);
+            String response = proxy.sendMessage(message);
 
-            System.out.println(response);
+            System.out.println("Received: " + response);
         }
 
         proxy.close();

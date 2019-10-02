@@ -48,7 +48,7 @@ class Connection extends Thread {
             String request;
             while (true) {
                 request = getRequest();
-                sendResponse(dispatcher.invoque(request));
+                sendResponse(dispatcher.invoke(request));
             }
 
         } catch (EOFException e) {
