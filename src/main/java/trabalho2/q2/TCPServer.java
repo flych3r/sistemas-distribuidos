@@ -1,4 +1,4 @@
-package trabalho1.q1;
+package trabalho2.q2;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class TCPServer {
+
     public static void main(String[] args) {
         try {
             int serverPort = 7896; // the server port
@@ -20,18 +21,22 @@ public class TCPServer {
             System.out.println("Listen socket:" + e.getMessage());
         }
     }
+
 }
 
 class Connection extends Thread {
+
     DataInputStream in;
     DataOutputStream out;
     Socket clientSocket;
+    Dispatcher dispatcher;
 
     public Connection(Socket aClientSocket) {
         try {
-            clientSocket = aClientSocket;
-            in = new DataInputStream(clientSocket.getInputStream());
-            out = new DataOutputStream(clientSocket.getOutputStream());
+            this.clientSocket = aClientSocket;
+            this.in = new DataInputStream(clientSocket.getInputStream());
+            this.out = new DataOutputStream(clientSocket.getOutputStream());
+            this.dispatcher = new Dispatcher();
             this.start();
         } catch (IOException e) {
             System.out.println("Connection:" + e.getMessage());
@@ -39,10 +44,13 @@ class Connection extends Thread {
     }
 
     public void run() {
-        try {                             // an echo server
+        try {
+            String request;
+            while (true) {
+                request = getRequest();
+                sendResponse(dispatcher.invoque(request));
+            }
 
-            String data = in.readUTF();                      // read a line of data from the stream
-            out.writeUTF(data);
         } catch (EOFException e) {
             System.out.println("EOF:" + e.getMessage());
         } catch (IOException e) {
@@ -52,6 +60,14 @@ class Connection extends Thread {
                 clientSocket.close();
             } catch (IOException e) {/*close failed*/}
         }
-
     }
+
+    public String getRequest() throws IOException {
+        return in.readUTF();
+    }
+
+    public void sendResponse(String response) throws IOException {
+        out.writeUTF(response);
+    }
+
 }

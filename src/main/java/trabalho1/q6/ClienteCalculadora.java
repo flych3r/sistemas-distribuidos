@@ -1,4 +1,4 @@
-//package trabalho1.q6;
+package trabalho1.q6;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

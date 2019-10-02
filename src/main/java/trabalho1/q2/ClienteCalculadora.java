@@ -1,4 +1,4 @@
-//package trabalho1.q2;
+package trabalho1.q2;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

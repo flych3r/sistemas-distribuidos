@@ -1,4 +1,4 @@
-//package trabalho1.q5;
+package trabalho1.q5;
 
 import java.io.InputStream;
 import java.util.Scanner;
