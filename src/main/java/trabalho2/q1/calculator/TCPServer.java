@@ -1,7 +1,5 @@
 package trabalho2.q1.calculator;
 
-import trabalho2.q2.calculator.Dispatcher;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
@@ -33,14 +31,12 @@ class Connection extends Thread {
     DataInputStream in;
     DataOutputStream out;
     Socket clientSocket;
-    Dispatcher dispatcher;
 
     public Connection(Socket aClientSocket) {
         try {
             this.clientSocket = aClientSocket;
             this.in = new DataInputStream(clientSocket.getInputStream());
             this.out = new DataOutputStream(clientSocket.getOutputStream());
-            this.dispatcher = new Dispatcher();
             this.start();
         } catch (IOException e) {
             System.out.println("Connection:" + e.getMessage());
