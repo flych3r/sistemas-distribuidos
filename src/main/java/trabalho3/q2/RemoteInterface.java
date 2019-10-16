@@ -1,5 +1,3 @@
-package trabalho3.q2;
-
 import java.rmi.*;
 import java.util.List;
 

@@ -1,5 +1,3 @@
-package trabalho3.q2;
-
 import java.io.*;
 import java.net.URL;
 import java.rmi.*;
@@ -11,7 +9,7 @@ public class Servant implements RemoteInterface {
     private String path;
 
     public Servant() throws RemoteException {
-        path = "";
+        path = "../files/";
     }
 
     @Override
@@ -22,6 +20,10 @@ public class Servant implements RemoteInterface {
 
     @Override
     public boolean downloadFile(String url, String fileName) throws RemoteException {
+        if(fileName.isEmpty()) {
+            String[] listUrl = url.split("/");
+            fileName = listUrl[listUrl.length - 1];
+        }
         try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
              FileOutputStream fileOutputStream = new FileOutputStream(path + fileName)) {
             byte[] dataBuffer = new byte[1024];
@@ -45,8 +47,7 @@ public class Servant implements RemoteInterface {
     @Override
     public List<String> readFile(String fileName) throws RemoteException {
         List<String> file = new ArrayList<String>();
-        try
-        {
+        try {
             BufferedReader reader = new BufferedReader(new FileReader(path + fileName));
             String line;
             while ((line = reader.readLine()) != null)
@@ -55,9 +56,7 @@ public class Servant implements RemoteInterface {
             }
             reader.close();
             return file;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
